@@ -1,7 +1,7 @@
 import moment from "moment"
 import mongoose from "mongoose"
 
-const Post = new mongoose.Schema({
+const post = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -124,6 +124,6 @@ const Post = new mongoose.Schema({
         default: false,
     }
 }, { timestamps: { createdAt: 'createdAt' } })
-
+const Post = mongoose.model("Post", post)
 export default Post
 

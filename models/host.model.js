@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const Host = new mongoose.Schema({
+const host = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -62,3 +62,7 @@ const Host = new mongoose.Schema({
         default: true
     }
 })
+
+const Host = mongoose.model("Host", host)
+
+export default Host

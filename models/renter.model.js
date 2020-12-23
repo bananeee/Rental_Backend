@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const Renter = new mongoose.Schema({
+const renter = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -55,4 +55,5 @@ const Renter = new mongoose.Schema({
     },
 })
 
+const Renter = mongoose.model("Renter", renter)
 export default Renter
