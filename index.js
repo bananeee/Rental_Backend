@@ -4,7 +4,9 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 
-import authRoutes from "./routes/auth.route.js";
+// import routes
+import authRoutes from "./routes/auth.route.js"
+import postsRoutes from "./routes/post.route.js"
 
 // Config express and port
 const app = express()
@@ -28,7 +30,9 @@ const connection = mongoose.connection
 
 
 // routes
-app.use("/auth", authRoutes);
+app.use("/auth", authRoutes)
+
+app.use("/posts", postsRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`)

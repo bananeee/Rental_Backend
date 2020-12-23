@@ -1,0 +1,12 @@
+{
+    "title": "hello world",
+    "image": "nguyenducquocdaiimage",
+    "location": { "no": "16", "street": "My Dinh", "ward": "Mai Dich", "district": "Cau Giay", "city": "Bac Ninh" },
+    "price": {
+        "category": "ok",
+        "amount": "1990"
+    },
+    "size": "50m2",
+    "electric": "123",
+    "water": "123"
+}

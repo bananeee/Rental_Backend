@@ -38,11 +38,11 @@ const renter = new mongoose.Schema({
                 type: String,
             }
         },
-        required: true,
+        // required: true,
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
     },
     facebook: {
         type: String,

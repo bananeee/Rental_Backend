@@ -55,7 +55,7 @@ const host = new mongoose.Schema({
     },
     personId: {
         type: String,
-        required: true,
+        // required: true,
     },
     pending: {
         type: Boolean,
