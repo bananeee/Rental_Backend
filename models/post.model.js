@@ -1,7 +1,7 @@
 import moment from "moment"
-import mongoose, { Schema } from "mongoose"
+import mongoose from "mongoose"
 
-const Post = new Schema({
+const Post = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -11,8 +11,23 @@ const Post = new Schema({
         required: true,
     }],
     location: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Location",
+        type: {
+            no: {
+                type: Number,
+            },
+            street: {
+                type: String,
+            },
+            ward: {
+                type: String,
+            },
+            district: {
+                type: String,
+            },
+            city: {
+                type: String,
+            }
+        },
         required: true,
     },
     nearby: {
@@ -82,14 +97,19 @@ const Post = new Schema({
         type: Date,
         default: moment(Date.now(), "DD-MM-YYYY").add(7, 'days'),
     },
-    favorite: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Favorite",
-    }],
+    favorite: {
+        type: {
+            amount: Number,
+            favoritedBy: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Renter'
+            }]
+        }
+    },
     comments: [{
         type: {
             text: String,
-            postedBy: {
+            commentedBy: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Renter'
             }
@@ -100,7 +120,8 @@ const Post = new Schema({
         ref: "Host",
     },
     pending: {
-        
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: { createdAt: 'createdAt' } })
 
