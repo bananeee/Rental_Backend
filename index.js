@@ -4,13 +4,15 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 
+import authRoutes from "./routes/auth.route.js";
+
 // Config express and port
 const app = express()
 const PORT = process.env.PORT || 5000
 
 // Config dotenv
 dotenv.config()
-Gg
+
 // Config bodyParser
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
@@ -26,7 +28,7 @@ const connection = mongoose.connection
 
 
 // routes
-// app.use("/renter", renterRoutes)
+app.use("/auth", authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`)

@@ -1,7 +1,7 @@
 import moment from "moment"
-import mongoose, { Schema } from "mongoose"
+import mongoose from "mongoose"
 
-const Renter = new Schema({
+const renter = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -9,6 +9,13 @@ const Renter = new Schema({
     password: {
         type: String,
         required: true,
+    },
+    phoneNumber: {
+        type: String,
+        required: true,
     }
-    
-})
+});
+
+const Renter = mongoose.model("Renter", renter);
+
+export default Renter;
