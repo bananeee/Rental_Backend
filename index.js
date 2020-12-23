@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 5000
 
 // Config dotenv
 dotenv.config()
-Gg
 // Config bodyParser
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
