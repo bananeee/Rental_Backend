@@ -64,8 +64,9 @@ export const createPostController = async (req, res) => {
 
     try {
         await newPostModel.save();
+        res.status(200).json(newPostModel)
     } catch (error) {
-        return res.status(409);
+        return res.status(409).json({message: error.message})
     }
 };
 
