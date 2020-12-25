@@ -1,17 +1,17 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const host = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
+        // required: true,
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
     },
     phoneNumber: {
         type: String,
-        required: true,
+        // required: true,
     },
     image: {
         type: String,
@@ -21,28 +21,26 @@ const host = new mongoose.Schema({
         type: String,
     },
     location: {
-        type: {
-            no: {
-                type: Number,
-            },
-            street: {
-                type: String,
-            },
-            ward: {
-                type: String,
-            },
-            district: {
-                type: String,
-            },
-            city: {
-                type: String,
-            }
+        no: {
+            type: Number,
         },
-        required: true,
+        street: {
+            type: String,
+        },
+        ward: {
+            type: String,
+        },
+        district: {
+            type: String,
+        },
+        city: {
+            type: String,
+        },
+        // // required: true,
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
     },
     facebook: {
         type: String,
@@ -55,14 +53,14 @@ const host = new mongoose.Schema({
     },
     personId: {
         type: String,
-        // required: true,
+        // // required: true,
     },
     pending: {
         type: Boolean,
-        default: true
-    }
-})
+        default: true,
+    },
+});
 
-const Host = mongoose.model("Host", host)
+const Host = mongoose.model("Host", host);
 
-export default Host
+export default Host;

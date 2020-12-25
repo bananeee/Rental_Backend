@@ -5,33 +5,31 @@ const post = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true,
+            // required: true,
         },
         image: [
             {
                 type: String,
-                required: true,
             },
         ],
         location: {
-            type: {
-                no: {
-                    type: Number,
-                },
-                street: {
-                    type: String,
-                },
-                ward: {
-                    type: String,
-                },
-                district: {
-                    type: String,
-                },
-                city: {
-                    type: String,
-                },
+            no: {
+                type: Number,
             },
-            required: true,
+            street: {
+                type: String,
+            },
+            ward: {
+                type: String,
+            },
+            district: {
+                type: String,
+            },
+            city: {
+                type: String,
+            },
+
+            // required: true,
         },
         nearby: {
             type: String,
@@ -42,36 +40,36 @@ const post = new mongoose.Schema(
         numOfRoom: {
             type: Number,
         },
+        // price: {
+        //     category: {
+        //         type: String,
+        //         // required: true,
+        //     },
+        //     amount: {
+        //         type: Number,
+        //         // required: true,
+        //     },
+
+        //     // required: true,
+        // },
         price: {
-            type: {
-                category: {
-                    type: String,
-                    required: true,
-                },
-                amount: {
-                    type: Number,
-                    required: true,
-                },
-            },
-            required: true,
+            type: Number,
         },
         size: {
             type: Number,
-            required: true,
+            // required: true,
         },
         ownerType: {
             type: String,
         },
-        bathroom: {
-            type: {
-                category: {
-                    type: String,
-                },
-                hot: {
-                    type: String,
-                },
-            },
-        },
+        // bathroom: {
+        //     category: {
+        //         type: String,
+        //     },
+        //     hot: {
+        //         type: String,
+        //     },
+        // },
         kitchen: {
             type: String,
         },
@@ -83,11 +81,11 @@ const post = new mongoose.Schema(
         },
         electric: {
             type: String,
-            required: true,
+            // required: true,
         },
         water: {
             type: Number,
-            required: true,
+            // required: true,
         },
         otherAmenity: {
             type: String,
@@ -106,6 +104,7 @@ const post = new mongoose.Schema(
                 ref: "Renter",
             },
         ],
+        default: [],
         comments: [
             {
                 text: String,

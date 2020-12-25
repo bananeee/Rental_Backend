@@ -47,18 +47,19 @@ export const renterRegisterController = async (req, res) => {
                     await renter.save();
                     res.status(201).json({ message: "Saved successfully" });
                 } catch (error) {
-                    res.status(409).json({ message: error.message });
+                    res.status(409).json({ message: error });
                 }
             });
         });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: error });
     }
 };
 
 export const renterLoginController = async (req, res) => {
     const { username, password } = req.body;
 
+    console.log("authCOntrooler");
     if (!username || !password) {
         return res
             .status(422)
@@ -66,7 +67,7 @@ export const renterLoginController = async (req, res) => {
     }
 
     try {
-        await Renter.findOne({ username }).then(async (saveRenter) => {
+        Renter.findOne({ username }).then(async (saveRenter) => {
             if (!saveRenter) {
                 return res
                     .status(422)
@@ -99,7 +100,7 @@ export const renterLoginController = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: error });
     }
 };
 
@@ -130,12 +131,13 @@ export const hostRegisterController = async (req, res) => {
                         await host.save();
                         res.status(201).json({ message: "Saved successfully" });
                     } catch (error) {
-                        res.status(409).json({ message: error.message });
+                        console.log(error);
+                        res.status(409).json({ message: error });
                     }
                 });
         });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: error });
     }
 };
 
@@ -182,6 +184,6 @@ export const hostLoginController = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: error });
     }
 };

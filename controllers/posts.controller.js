@@ -4,10 +4,12 @@ import mongoose from "mongoose";
 // Import mongoose schema
 
 import Post from "../models/post.model.js";
+import Renter from "../models/renter.model.js";
 
 // Create routes
 const getAllPosts = async () => {
     try {
+        console.log("112");
         return await Post.find()
             .populate("postedBy", "_id name")
             .sort("createdAt");
@@ -27,8 +29,13 @@ const getPostsByQuery = async (query) => {
 };
 
 export const getPostsController = async (req, res) => {
-    const post =
-        Object.keys(req.query).length !== 0 ? getPostsByQuery : getAllPosts;
+    // const post = Object.keys(req.query).length !== 0 ? getPostsByQuery : getAllPosts;
+
+    const post = await Post.find()
+        .populate("postedBy", "_id name")
+        // .select("price.amount")
+        .sort("createdAt");
+
     res.status(200).json({ post });
 };
 
@@ -57,9 +64,8 @@ export const createPostController = async (req, res) => {
 
     try {
         await newPostModel.save();
-        res.status(200).json({ newPostModel });
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        return res.status(409);
     }
 };
 
@@ -73,7 +79,6 @@ export const deletePostController = async (req, res) => {
         return res.status(404).send(`No post with id: ${id}`);
     }
     try {
-        // await PostModel.findByIdAndRemove(id)
         await Post.findById(id)
             .populate("postedBy", "_id")
             .exec((error, post) => {
@@ -96,11 +101,10 @@ export const likePostController = async (req, res) => {
     }
 
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).send(`No post with id: ${id}`);
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).send(`No post with id: ${id}`);
+    // }
     try {
-        const post = await Post.findById(id);
         const updatePost = await Post.findByIdAndUpdate(
             id,
             {
@@ -121,11 +125,10 @@ export const unLikePostController = async (req, res) => {
         return res.status(403).json({ message: "You are not renter" });
     }
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).send(`No post with id: ${id}`);
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).send(`No post with id: ${id}`);
+    // }
     try {
-        const post = await Post.findById(id);
         const updatePost = await Post.findByIdAndUpdate(
             id,
             {
@@ -169,7 +172,6 @@ export const commentPostController = async (req, res) => {
 };
 
 export const updatePostController = async (req, res) => {
-    
     if (req.user.role !== "host") {
         return res.status(403).json({ message: "You are not host" });
     }

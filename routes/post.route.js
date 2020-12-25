@@ -27,6 +27,4 @@ router.put("/like/:id", verifyToken, requireLogin, likePostController);
 
 router.put("/unlike/:id", verifyToken, requireLogin, unLikePostController);
 
-
-
 export default router;

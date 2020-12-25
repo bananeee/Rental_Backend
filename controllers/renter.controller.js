@@ -23,9 +23,9 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export const renterRegisterController = async (req, res) => {
     const { username, password, phoneNumber } = req.body;
 
-    if (!username || !password || !phoneNumber) {
-        return res.status(422).json({ error: "Please add all the fields" });
-    }
+    // if (!username || !password || !phoneNumber) {
+    //     return res.status(422).json({ error: "Please add all the fields" });
+    // }
 
     try {
         // Check rentel exist ?
