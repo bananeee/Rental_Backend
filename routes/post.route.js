@@ -8,7 +8,9 @@ import {
     likePostController,
     unLikePostController,
     commentPostController,
-    updatePostController
+    updatePostController,
+    getFavorPostsController,
+    getMyPostsController
 } from "../controllers/posts.controller.js";
 
 import { verifyToken, requireLogin } from "../middlewares/auth.middleware.js";
@@ -22,6 +24,10 @@ router.post("/", verifyToken, requireLogin, createPostController);
 router.put("/:id", verifyToken, requireLogin, updatePostController);
 
 router.put("/comment/:id", verifyToken, requireLogin, commentPostController);
+
+router.get("/myfavor/:id", verifyToken, requireLogin, getFavorPostsController)
+
+router.get("/myposts/:id", verifyToken, requireLogin, getMyPostsController)
 
 router.put("/like/:id", verifyToken, requireLogin, likePostController);
 

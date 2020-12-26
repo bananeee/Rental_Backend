@@ -9,7 +9,6 @@ import Renter from "../models/renter.model.js";
 // Create routes
 const getAllPosts = async () => {
     try {
-        console.log("112");
         return await Post.find()
             .populate("postedBy", "_id name")
             .sort("createdAt");
@@ -39,12 +38,44 @@ export const getPostsController = async (req, res) => {
     res.status(200).json({ post });
 };
 
+export const getFavorPostsController = async (req, res) => {
+    // const post = Object.keys(req.query).length !== 0 ? getPostsByQuery : getAllPosts;
+    const { id } = req.params;
+
+    try {
+        const posts = await Post.find({ favorite: id})
+            // .populate("postedBy", "_id name")
+            // .select("price.amount")
+            .sort("createdAt");
+            
+        // console.log(posts.posts.title);
+
+        res.status(200).json({ posts });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+export const getMyPostsController = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const posts = await Post.find({postedBy: id, pending: false})
+            // .populate("postedBy", "_id name")
+            // .select("price.amount")
+            .sort("createdAt");
+        res.status(200).json({ posts });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const getAPostController = async (req, res) => {
     const { id } = req.params;
 
     try {
         const posts = await Post.findById(id)
-            .populate("postedBy", "_id name")
+            .populate("postedBy", "_id username phoneNumber")
             .sort("createdAt");
         res.status(200).json({ posts });
     } catch (error) {
@@ -64,9 +95,9 @@ export const createPostController = async (req, res) => {
 
     try {
         await newPostModel.save();
-        res.status(200).json(newPostModel)
+        res.status(200).json(newPostModel);
     } catch (error) {
-        return res.status(409).json({message: error.message})
+        return res.status(409).json({ message: error.message });
     }
 };
 
