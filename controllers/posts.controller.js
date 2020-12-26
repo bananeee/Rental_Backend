@@ -102,14 +102,16 @@ export const createPostController = async (req, res) => {
 };
 
 export const deletePostController = async (req, res) => {
+    console.log(req.user);
+    
     if (req.user.role !== "host") {
         return res.status(403).json({ message: "You are not host" });
     }
 
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).send(`No post with id: ${id}`);
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).send(`No post with id: ${id}`);
+    // }
     try {
         await Post.findById(id)
             .populate("postedBy", "_id")
@@ -121,9 +123,11 @@ export const deletePostController = async (req, res) => {
                     post.remove();
                 }
             });
+
+        console.log("delete success")
         res.status(200).json({ message: "Post deleted successfully." });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        console.log(error);
     }
 };
 

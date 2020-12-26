@@ -10,7 +10,8 @@ import {
     commentPostController,
     updatePostController,
     getFavorPostsController,
-    getMyPostsController
+    getMyPostsController,
+    deletePostController
 } from "../controllers/posts.controller.js";
 
 import { verifyToken, requireLogin } from "../middlewares/auth.middleware.js";
@@ -32,5 +33,9 @@ router.get("/myposts/:id", verifyToken, requireLogin, getMyPostsController)
 router.put("/like/:id", verifyToken, requireLogin, likePostController);
 
 router.put("/unlike/:id", verifyToken, requireLogin, unLikePostController);
+
+router.delete('/:id', verifyToken, requireLogin, deletePostController);
+
+
 
 export default router;
