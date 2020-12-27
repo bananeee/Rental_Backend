@@ -41,11 +41,41 @@ export const getPostsController = async (req, res) => {
         //     .populate("postedBy", "_id name")
         //     // .select("price.amount")
         //     .sort("createdAt");
-
         res.status(200).json({ post });
     } catch (error) {
         res.status(404).json({ message: error.message });
+    }
+};
 
+export const getFavorPostsController = async (req, res) => {
+    // const post = Object.keys(req.query).length !== 0 ? getPostsByQuery : getAllPosts;
+    const { id } = req.params;
+
+    try {
+        const posts = await Post.find({ favorite: id})
+            // .populate("postedBy", "_id name")
+            // .select("price.amount")
+            .sort("createdAt");
+            
+        // console.log(posts.posts.title);
+
+        res.status(200).json({ posts });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+export const getMyPostsController = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const posts = await Post.find({postedBy: id, pending: false})
+            // .populate("postedBy", "_id name")
+            // .select("price.amount")
+            .sort("createdAt");
+        res.status(200).json({ posts });
+    } catch (error) {
+        console.log(error);
     }
 };
 
@@ -54,7 +84,8 @@ export const getAPostController = async (req, res) => {
 
     try {
         const posts = await Post.findById(id)
-            .populate("postedBy", "_id name")
+            .populate("postedBy", "_id username phoneNumber")
+            .populate("comments.commentedBy", "image username _id phoneNumber")
             .sort("createdAt");
         res.status(200).json({ posts });
     } catch (error) {
@@ -74,21 +105,23 @@ export const createPostController = async (req, res) => {
 
     try {
         await newPostModel.save();
-        res.status(200).json(newPostModel)
+        res.status(200).json(newPostModel);
     } catch (error) {
-        return res.status(409).json({ message: error.message })
+        return res.status(409).json({ message: error.message });
     }
 };
 
 export const deletePostController = async (req, res) => {
+    console.log(req.user);
+    
     if (req.user.role !== "host") {
         return res.status(403).json({ message: "You are not host" });
     }
 
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).send(`No post with id: ${id}`);
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //     return res.status(404).send(`No post with id: ${id}`);
+    // }
     try {
         await Post.findById(id)
             .populate("postedBy", "_id")
@@ -100,9 +133,11 @@ export const deletePostController = async (req, res) => {
                     post.remove();
                 }
             });
+
+        console.log("delete success")
         res.status(200).json({ message: "Post deleted successfully." });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        console.log(error);
     }
 };
 
@@ -161,9 +196,10 @@ export const commentPostController = async (req, res) => {
     }
     const { id } = req.params;
 
+
     const comments = {
         text: req.body.text,
-        postedBy: req.user._id,
+        commentedBy: req.user._id,
     };
     try {
         const updatedComment = await Post.findByIdAndUpdate(
@@ -174,7 +210,7 @@ export const commentPostController = async (req, res) => {
                 },
             },
             { new: true }
-        ).populate("commentedBy", "_id name");
+        ).populate("comments.commentedBy", "image username _id phoneNumber");
 
         res.status(200).json(updatedComment);
     } catch (error) {

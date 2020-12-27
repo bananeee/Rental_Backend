@@ -13,6 +13,7 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const requireLogin = async (req, res, next) => {
+
     jwt.verify(req.token, JWT_SECRET, (err, authData) => {
         if (err) {
             return res.status(401).json({ error: "You must be logged in" });
