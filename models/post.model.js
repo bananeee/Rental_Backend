@@ -12,25 +12,25 @@ const post = new mongoose.Schema(
                 type: String,
             },
         ],
-        location: {
-            no: {
-                type: Number,
-            },
-            street: {
-                type: String,
-            },
-            ward: {
-                type: String,
-            },
-            district: {
-                type: String,
-            },
-            city: {
-                type: String,
-            },
 
-            // required: true,
+        no: {
+            type: Number,
         },
+        street: {
+            type: String,
+        },
+        ward: {
+            type: String,
+        },
+        district: {
+            type: String,
+        },
+        city: {
+            type: String,
+        },
+
+        // required: true,
+
         nearby: {
             type: String,
         },

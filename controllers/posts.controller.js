@@ -8,35 +8,45 @@ import Renter from "../models/renter.model.js";
 
 // Create routes
 const getAllPosts = async () => {
-    try {
-        console.log("112");
-        return await Post.find()
-            .populate("postedBy", "_id name")
-            .sort("createdAt");
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
+    const post = await Post.find()
+        .populate("postedBy", "_id name")
+        .sort("createdAt");
+    // .select("price.amount")
+    return post;
 };
 
 const getPostsByQuery = async (query) => {
-    try {
-        return await Post.find(query)
-            .populate("postedBy", "_id name")
-            .sort("createdAt");
-    } catch (error) {
-        res.status(404).json({ message: error.message });
+    let { size, price } = query
+    if (size !== undefined) {
+        size = size * 10
+        query.size = { $gte: size - 10, $lte: size }
     }
+    if (price !== undefined) {
+        price = price * 1000
+        query.price = { $gte: price - 1000, $lte: price }
+    }
+
+    const post = await Post.find(query)
+        .populate("postedBy", "_id name")
+        .sort("createdAt");
+    // .select("price.amount")
+    return post;
 };
 
 export const getPostsController = async (req, res) => {
-    // const post = Object.keys(req.query).length !== 0 ? getPostsByQuery : getAllPosts;
+    try {
+        const post = Object.keys(req.query).length !== 0 ? await getPostsByQuery(req.query) : await getAllPosts();
 
-    const post = await Post.find()
-        .populate("postedBy", "_id name")
-        // .select("price.amount")
-        .sort("createdAt");
+        // const post = await Post.find()
+        //     .populate("postedBy", "_id name")
+        //     // .select("price.amount")
+        //     .sort("createdAt");
 
-    res.status(200).json({ post });
+        res.status(200).json({ post });
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+
+    }
 };
 
 export const getAPostController = async (req, res) => {
@@ -66,7 +76,7 @@ export const createPostController = async (req, res) => {
         await newPostModel.save();
         res.status(200).json(newPostModel)
     } catch (error) {
-        return res.status(409).json({message: error.message})
+        return res.status(409).json({ message: error.message })
     }
 };
 
