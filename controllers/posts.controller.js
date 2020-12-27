@@ -31,7 +31,8 @@ export const getPostsController = async (req, res) => {
     // const post = Object.keys(req.query).length !== 0 ? getPostsByQuery : getAllPosts;
 
     const post = await Post.find()
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id username")
+        .populate("comments.commentedBy", "image username _id phoneNumber")
         // .select("price.amount")
         .sort("createdAt");
 
@@ -76,6 +77,7 @@ export const getAPostController = async (req, res) => {
     try {
         const posts = await Post.findById(id)
             .populate("postedBy", "_id username phoneNumber")
+            .populate("comments.commentedBy", "image username _id phoneNumber")
             .sort("createdAt");
         res.status(200).json({ posts });
     } catch (error) {
@@ -186,9 +188,10 @@ export const commentPostController = async (req, res) => {
     }
     const { id } = req.params;
 
+
     const comments = {
         text: req.body.text,
-        postedBy: req.user._id,
+        commentedBy: req.user._id,
     };
     try {
         const updatedComment = await Post.findByIdAndUpdate(
@@ -199,7 +202,7 @@ export const commentPostController = async (req, res) => {
                 },
             },
             { new: true }
-        ).populate("commentedBy", "_id name");
+        ).populate("comments.commentedBy", "image username _id phoneNumber");
 
         res.status(200).json(updatedComment);
     } catch (error) {
