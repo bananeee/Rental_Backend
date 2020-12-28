@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+.eslintcache
+
 # Env
 .env
 .env.example
