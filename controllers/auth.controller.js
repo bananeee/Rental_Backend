@@ -59,7 +59,6 @@ export const renterRegisterController = async (req, res) => {
 export const renterLoginController = async (req, res) => {
     const { username, password } = req.body;
 
-    console.log("authCOntrooler");
     if (!username || !password) {
         return res
             .status(422)
@@ -92,6 +91,7 @@ export const renterLoginController = async (req, res) => {
                         username,
                         phoneNumber,
                     },
+                    role: "renter"
                 });
             } else {
                 return res
@@ -176,6 +176,7 @@ export const hostLoginController = async (req, res) => {
                         username,
                         phoneNumber,
                     },
+                    role: "host"
                 });
             } else {
                 return res

@@ -14,7 +14,7 @@ const post = new mongoose.Schema(
         ],
 
         no: {
-            type: Number,
+            type: String,
         },
         street: {
             type: String,
@@ -86,7 +86,7 @@ const post = new mongoose.Schema(
             // required: true,
         },
         water: {
-            type: Number,
+            type: String,
             // required: true,
         },
         otherAmenity: {
