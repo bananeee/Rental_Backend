@@ -118,10 +118,14 @@ const post = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Host",
         },
-        pending: {
-            type: Boolean,
-            default: false,
-        },
+        // pending: {
+        //     type: Boolean,
+        //     default: false,
+        // },
+        status: {
+            type: String,
+            default: "pending",
+        }
     },
     { timestamps: { createdAt: "createdAt" } }
 );

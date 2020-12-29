@@ -20,24 +20,22 @@ const host = new mongoose.Schema({
     fullName: {
         type: String,
     },
-    location: {
-        no: {
-            type: Number,
-        },
-        street: {
-            type: String,
-        },
-        ward: {
-            type: String,
-        },
-        district: {
-            type: String,
-        },
-        city: {
-            type: String,
-        },
-        // // required: true,
+    no: {
+        type: Number,
     },
+    street: {
+        type: String,
+    },
+    ward: {
+        type: String,
+    },
+    district: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    // // required: true,
     email: {
         type: String,
         // required: true,
@@ -55,10 +53,14 @@ const host = new mongoose.Schema({
         type: String,
         // // required: true,
     },
-    pending: {
-        type: Boolean,
-        default: true,
-    },
+    // pending: {
+    //     type: Boolean,
+    //     default: true,
+    // },
+    status: {
+        type: String,
+        default: "pending"
+    }
 });
 
 const Host = mongoose.model("Host", host);

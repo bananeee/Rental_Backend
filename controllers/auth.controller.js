@@ -92,6 +92,7 @@ export const renterLoginController = async (req, res) => {
                         username,
                         phoneNumber,
                     },
+                    role: "renter",
                 });
             } else {
                 return res
@@ -122,6 +123,7 @@ export const hostRegisterController = async (req, res) => {
             bcrypt
                 .hash(req.body.password, saltRounds)
                 .then(async (hashedPassword) => {
+                    delete req.body.status             // Not allow host to change state
                     const host = new Host({
                         ...req.body,
                         password: hashedPassword,
@@ -158,6 +160,12 @@ export const hostLoginController = async (req, res) => {
                     .json({ error: "Invalid username or password" });
             }
 
+            if (saveHost.status === "pending") {
+                return res
+                    .status(422)
+                    .json({ error: "Your register request hasn't been accepted" });
+            }
+
             // Check nick exists
             const match = await bcrypt.compare(password, saveHost.password);
 
@@ -176,6 +184,7 @@ export const hostLoginController = async (req, res) => {
                         username,
                         phoneNumber,
                     },
+                    role: "host"
                 });
             } else {
                 return res
@@ -185,5 +194,30 @@ export const hostLoginController = async (req, res) => {
         });
     } catch (error) {
         res.status(404).json({ message: error });
+    }
+};
+
+export const adminLoginController = async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res
+            .status(422)
+            .json({ error: "Please add username or password" });
+    }
+
+    if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+        const token = jwt.sign(
+            { role: "admin" },
+            JWT_SECRET
+        );
+        res.json({
+            token,
+            role: "admin"
+        });
+    } else {
+        return res
+            .status(422)
+            .json({ error: "Invalid username or password" });
     }
 };

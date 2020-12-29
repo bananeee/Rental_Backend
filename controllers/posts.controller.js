@@ -69,7 +69,7 @@ export const getFavorPostsController = async (req, res) => {
 export const getMyPostsController = async (req, res) => {
     const { id } = req.params;
     try {
-        const posts = await Post.find({postedBy: id, pending: false})
+        const posts = await Post.find({postedBy: id, status: "pending"})
             // .populate("postedBy", "_id name")
             // .select("price.amount")
             .sort("createdAt");
@@ -230,9 +230,10 @@ export const updatePostController = async (req, res) => {
 
     try {
         const findPost = await Post.findById(id);
+        delete req.body.status;                // Not allow host update the post
 
         if (findPost.postedBy != req.user._id) {
-            res.status(403).json({ message: "you cannot update" });
+            res.status(403).json({ message: "You cannot update" });
         }
         const updatedPost = await Post.findByIdAndUpdate(id, req.body, {
             new: true,
@@ -245,3 +246,4 @@ export const updatePostController = async (req, res) => {
 
     res.json(updatedPost);
 };
+

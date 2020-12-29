@@ -26,13 +26,18 @@ export const requireLogin = async (req, res, next) => {
                 };
                 next();
             });
-        } else {
+        } else if (role === "host") {
             Host.findById(_id).then((data) => {
                 req.user = {
                     ...authData,
                 };
                 next();
             });
+        } else if (role === "admin") {
+            req.user = {
+                ...authData,
+            };
+            next();
         }
     });
 };

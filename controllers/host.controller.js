@@ -99,3 +99,16 @@ export const hostLoginController = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 };
+
+export const getHostsController = async (req, res) => {
+    try {
+        let { status } = req.query
+        const hosts = await Host.find({ status })
+            .select("image fullName personId username phoneNumber status")
+            // .select("price.amount")
+            .sort("createdAt");
+        res.status(200).json({ hosts });
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
