@@ -40,9 +40,7 @@ app.use("/posts", postsRoutes);
 
 app.use("/renter", renterRoutes);
 
-app.use("/host", hostRoutes);
-
-app.use("/hosts", hostsRoutes)
+app.use("/host", hostRoutes)
 
 app.use("/admin", adminRoutes)
 
