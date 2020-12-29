@@ -59,7 +59,6 @@ export const renterRegisterController = async (req, res) => {
 export const renterLoginController = async (req, res) => {
     const { username, password } = req.body;
 
-    console.log("authCOntrooler");
     if (!username || !password) {
         return res
             .status(422)

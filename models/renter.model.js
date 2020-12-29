@@ -15,33 +15,30 @@ const renter = new mongoose.Schema({
     },
     image: {
         type: String,
-        default: "default_avatar.jpeg",
+        default:
+            "https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png",
     },
     fullName: {
         type: String,
     },
-    location: {
-        no: {
-            type: Number,
-        },
-        street: {
-            type: String,
-        },
-        ward: {
-            type: String,
-        },
-        district: {
-            type: String,
-        },
-        city: {
-            type: String,
-        },
-
-        // // required: true,
+    no: {
+        type: Number,
+    },
+    street: {
+        type: String,
+    },
+    ward: {
+        type: String,
+    },
+    district: {
+        type: String,
+    },
+    city: {
+        type: String,
     },
     email: {
         type: String,
-        // // required: true,
+        // required: true,
     },
     facebook: {
         type: String,

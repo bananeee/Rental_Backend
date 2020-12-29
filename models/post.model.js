@@ -14,7 +14,7 @@ const post = new mongoose.Schema(
         ],
 
         no: {
-            type: Number,
+            type: String,
         },
         street: {
             type: String,
@@ -34,9 +34,11 @@ const post = new mongoose.Schema(
         nearby: {
             type: String,
         },
+
         type: {
             type: String,
         },
+
         numOfRoom: {
             type: Number,
         },
@@ -84,7 +86,7 @@ const post = new mongoose.Schema(
             // required: true,
         },
         water: {
-            type: Number,
+            type: String,
             // required: true,
         },
         otherAmenity: {
@@ -98,13 +100,16 @@ const post = new mongoose.Schema(
             type: Date,
             default: moment(Date.now(), "DD-MM-YYYY").add(7, "days"),
         },
+
         favorite: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Renter",
             },
         ],
+
         default: [],
+
         comments: [
             {
                 text: String,
@@ -114,6 +119,7 @@ const post = new mongoose.Schema(
                 },
             },
         ],
+
         postedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Host",

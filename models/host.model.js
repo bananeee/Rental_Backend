@@ -15,7 +15,7 @@ const host = new mongoose.Schema({
     },
     image: {
         type: String,
-        default: "default_avatar.jpeg",
+        default: "https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"
     },
     fullName: {
         type: String,
