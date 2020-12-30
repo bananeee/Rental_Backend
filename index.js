@@ -10,7 +10,7 @@ import postsRoutes from "./routes/post.route.js";
 import renterRoutes from "./routes/renter.route.js";
 import hostRoutes from "./routes/host.route.js";
 import adminRoutes from "./routes/admin.route.js"
-
+import fake from './fake data/accom.js'
 // Config express and port
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -43,6 +43,7 @@ app.use("/renter", renterRoutes);
 app.use("/host", hostRoutes)
 
 app.use("/admin", adminRoutes)
+app.use("/fake", fake)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

@@ -43,7 +43,8 @@ export const requireLogin = async (req, res, next) => {
 };
 
 export const verifyToken = async (req, res, next) => {
-    
+    console.log("authData")
+
     const bearerHeader = req.headers["authorization"];
 
     if (typeof bearerHeader !== "undefined") {

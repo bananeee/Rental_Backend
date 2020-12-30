@@ -13,6 +13,10 @@ const post = new mongoose.Schema(
             },
         ],
 
+        description: {
+            type: String
+        },
+
         no: {
             type: String,
         },
@@ -75,7 +79,7 @@ const post = new mongoose.Schema(
         kitchen: {
             type: String,
         },
-        airCondition: {
+        airConditioner: {
             type: String,
         },
         balcony: {

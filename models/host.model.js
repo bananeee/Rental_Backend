@@ -20,6 +20,9 @@ const host = new mongoose.Schema({
     fullName: {
         type: String,
     },
+    idNumber: {
+        type: String,
+    },
     no: {
         type: Number,
     },

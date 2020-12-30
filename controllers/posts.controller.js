@@ -8,7 +8,7 @@ import Renter from "../models/renter.model.js";
 
 // Create routes
 const getAllPosts = async () => {
-    const post = await Post.find()
+    const post = await Post.find({ status: "active" })
         .populate("postedBy", "_id name")
         .sort("createdAt");
     // .select("price.amount")
@@ -16,14 +16,19 @@ const getAllPosts = async () => {
 };
 
 const getPostsByQuery = async (query) => {
-    let { size, price } = query
+    let { size, price } = query;
     if (size !== undefined) {
-        size = size * 10
-        query.size = { $gte: size - 10, $lte: size }
+        size = size * 10;
+        if (size !== 50) {
+            query.size = { $gte: size - 10, $lte: size };
+        } else {
+            query.size = { $gte: size - 10 };
+        }
     }
     if (price !== undefined) {
-        price = price * 1000
-        query.price = { $gte: price - 1000, $lte: price }
+        // price = price * 1000
+        if (price !== "5") query.price = { $gte: price - 1, $lte: price };
+        else query.price = { $gte: price - 1 };
     }
 
     const post = await Post.find(query)
@@ -35,7 +40,10 @@ const getPostsByQuery = async (query) => {
 
 export const getPostsController = async (req, res) => {
     try {
-        const post = Object.keys(req.query).length !== 0 ? await getPostsByQuery(req.query) : await getAllPosts();
+        const post =
+            Object.keys(req.query).length !== 0
+                ? await getPostsByQuery(req.query)
+                : await getAllPosts();
 
         // const post = await Post.find()
         //     .populate("postedBy", "_id name")
@@ -52,11 +60,11 @@ export const getFavorPostsController = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const posts = await Post.find({ favorite: id})
+        const posts = await Post.find({ favorite: id })
             // .populate("postedBy", "_id name")
             // .select("price.amount")
             .sort("createdAt");
-            
+
         // console.log(posts.posts.title);
 
         res.status(200).json({ posts });
@@ -65,11 +73,10 @@ export const getFavorPostsController = async (req, res) => {
     }
 };
 
-
 export const getMyPostsController = async (req, res) => {
     const { id } = req.params;
     try {
-        const posts = await Post.find({postedBy: id, status: "pending"})
+        const posts = await Post.find({ postedBy: id, status: "pending" })
             // .populate("postedBy", "_id name")
             // .select("price.amount")
             .sort("createdAt");
@@ -104,10 +111,8 @@ export const createPostController = async (req, res) => {
     });
 
     try {
-        
         newPostModel.save();
 
-        console.log(newPostModel)
         res.status(200).json(newPostModel);
     } catch (error) {
         return res.status(409).json({ message: error.message });
@@ -115,8 +120,6 @@ export const createPostController = async (req, res) => {
 };
 
 export const deletePostController = async (req, res) => {
-    console.log(req.user);
-    
     if (req.user.role !== "host") {
         return res.status(403).json({ message: "You are not host" });
     }
@@ -137,7 +140,6 @@ export const deletePostController = async (req, res) => {
                 }
             });
 
-        console.log("delete success")
         res.status(200).json({ message: "Post deleted successfully." });
     } catch (error) {
         console.log(error);
@@ -145,10 +147,6 @@ export const deletePostController = async (req, res) => {
 };
 
 export const likePostController = async (req, res) => {
-
-
-    console.log(req.user.role)
-
     if (req.user.role !== "renter") {
         return res.status(403).json({ message: "You are not renter" });
     }
@@ -203,7 +201,6 @@ export const commentPostController = async (req, res) => {
     }
     const { id } = req.params;
 
-
     const comments = {
         text: req.body.text,
         commentedBy: req.user._id,
@@ -237,7 +234,7 @@ export const updatePostController = async (req, res) => {
 
     try {
         const findPost = await Post.findById(id);
-        delete req.body.status;                // Not allow host update the post
+        delete req.body.status; // Not allow host update the post
 
         if (findPost.postedBy != req.user._id) {
             res.status(403).json({ message: "You cannot update" });
@@ -253,4 +250,3 @@ export const updatePostController = async (req, res) => {
 
     res.json(updatedPost);
 };
-
